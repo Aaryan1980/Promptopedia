@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db';
+import { notFound, errorHandler } from './middleware/error.middleware';
 
 dotenv.config();
 
@@ -17,6 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.json({ message: 'PromptSocial API is running 🚀' });
 });
+
+// Error Handling Middleware (Must be after all routes)
+app.use(notFound);
+app.use(errorHandler);
 
 // Start server
 const startServer = async () => {
