@@ -4,7 +4,7 @@ node_modules/
 .pnp.js
 
 # Build outputs
-dist/
+
 build/
 *.tsbuildinfo
 
@@ -49,3 +49,5 @@ prisma/migrations/.DS_Store
 
 # Task tracking (internal)
 task.md
+backend/dist/
+frontend/dist/
