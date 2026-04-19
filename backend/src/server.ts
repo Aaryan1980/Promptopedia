@@ -13,12 +13,20 @@ dotenv.config();
 
 const app: Express = express();
 const PORT = process.env.PORT || 5001;
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+const CLIENT_URL = (process.env.CLIENT_URL || "http://localhost:5173").replace(/\/+$/, '');
+
+const allowedOrigins = [
+    CLIENT_URL,
+    "https://promptopedia-opal.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173"
+].filter(Boolean);
 
 const httpServer = require('http').createServer(app);
 const io = require('socket.io')(httpServer, {
     cors: {
-        origin: [CLIENT_URL, "http://localhost:5173", "http://127.0.0.1:5173"],
+        origin: allowedOrigins,
         methods: ["GET", "POST"]
     }
 });
@@ -77,7 +85,7 @@ connectDB();
 
 
 app.use(cors({
-    origin: [CLIENT_URL, "http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: allowedOrigins,
     credentials: true
 }));
 app.use(express.json());
